@@ -20,11 +20,15 @@ def write_fake_music_library
   end
 end
 
+def build_playlist
+  files = Dir['music_library/**/*.mp3']
+
+  File.open('playlist.m3u', 'w') do |f|
+    files.each { |el| f.write(el + "\n") }
+  end
+end
+
 # I have no music local, so build a fake library
 write_fake_music_library
 
-files = Dir['music_library/**/*.mp3']
-
-File.open('playlist.m3u', 'w') do |f|
-  files.each { |el| f.write(el + "\n") }
-end
+build_playlist
