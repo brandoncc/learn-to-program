@@ -24,7 +24,7 @@ def build_playlist
   files = Dir['music_library/**/*.mp3']
 
   File.open('playlist.m3u', 'w') do |f|
-    files.each { |el| f.write(el + "\n") }
+    files.each { |el| f.write("#{el}\n") }
   end
 end
 
