@@ -13,10 +13,10 @@ def build_roman_numerals array
   end
 
   return roman_numerals, number_to_convert
-end 
+end
 
 
-[["M", 1000], ["D", 500], ["C", 100], ["XC", 90], ["LXXX", 80], ["LXX", 70], ["LX", 60], ["L", 50], ["XL", 40], ["XXX", 30], ["XX", 20], ["XIX", 19], ["XVIII", 18], ["XVII", 17], ["XVI", 16], ["XV", 15], ["XIV", 14], ["XIII", 13], ["XII", 12], ["XI", 11], ["X", 10], ["IX", 9], ["VIII", 8], ["VII", 7], ["VI", 6], ["V", 5], ["IV", 4], ["III", 3], ["II", 2], ["I", 1]].each do |e|
+[["M", 1000], ["CM", 900], ["D", 500], ["C", 100], ["XC", 90], ["LXXX", 80], ["LXX", 70], ["LX", 60], ["L", 50], ["XL", 40], ["XXX", 30], ["XX", 20], ["XIX", 19], ["XVIII", 18], ["XVII", 17], ["XVI", 16], ["XV", 15], ["XIV", 14], ["XIII", 13], ["XII", 12], ["XI", 11], ["X", 10], ["IX", 9], ["VIII", 8], ["VII", 7], ["VI", 6], ["V", 5], ["IV", 4], ["III", 3], ["II", 2], ["I", 1]].each do |e|
   roman_numerals, number_to_convert = build_roman_numerals([number_to_convert, roman_numerals, e[0], e[1]])
 end
 
