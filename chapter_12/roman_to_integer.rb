@@ -22,98 +22,127 @@ require 'pry'
 @letters = %w(I V X L C D M)
 @values  = {'I' => 1, 'V' => 5, 'X' => 10, 'L' => 50, 'C' => 100, 'D' => 500, 'M' => 1000}
 
+def is_largest_value string, val
+  is_largest     = true
+  larger_letters = @letters[@letters.index(val)+1..-1]
+
+  string.each_char do |l|
+    is_largest = false if larger_letters.include?(l)
+  end
+  is_largest
+end
 
 def roman_to_integer(string_to_convert)
-  roman             = string_to_convert.dup
-  converted_integer = 0
+  roman              = string_to_convert.dup
+  converted_integer  = 0
+  amount_to_subtract = 0
 
-  while roman.length > 0
-    case
-      when roman[0] == 'M'
-        converted_integer += 1000
-        shift_string(roman)
-      when roman.include?('M')
+  # check if first is not largest (needs subtraction)
+  # add if it is, pass it to recursive run if it isn't
+
+  roman.chars.each_with_index do |numeral, index|
+    case numeral
+      when 'M'
+        converted_integer  += 1000 - amount_to_subtract
         amount_to_subtract = 0
-        while roman[0] != 'M'
-          amount_to_subtract += @values[roman[0]]
-          shift_string(roman)
-        end
-
-        # get rid of the M
-        shift_string(roman)
-        converted_integer += (1000-amount_to_subtract)
-      when roman[0] == 'D'
-        converted_integer += 500
-        shift_string(roman)
-      when roman.include?('D')
-        amount_to_subtract = 0
-        while roman[0] != 'D'
-          amount_to_subtract += @values[roman[0]]
-          shift_string(roman)
-        end
-
-        # get rid of the M
-        shift_string(roman)
-        converted_integer += (500-amount_to_subtract)
-      when roman[0] == 'C'
-        converted_integer += 100
-        shift_string(roman)
-      when roman.include?('C')
-        amount_to_subtract = 0
-        while roman[0] != 'C'
-          amount_to_subtract += @values[roman[0]]
-          shift_string(roman)
-        end
-
-        # get rid of the M
-        shift_string(roman)
-        converted_integer += (100-amount_to_subtract)
-      when roman[0] == 'L'
-        converted_integer += 50
-        shift_string(roman)
-      when roman.include?('L')
-        amount_to_subtract = 0
-        while roman[0] != 'L'
-          amount_to_subtract += @values[roman[0]]
-          shift_string(roman)
-        end
-
-        # get rid of the M
-        shift_string(roman)
-        converted_integer += (50-amount_to_subtract)
-      when roman[0] == 'X'
-        converted_integer += 10
-        shift_string(roman)
-      when roman.include?('X')
-        amount_to_subtract = 0
-        while roman[0] != 'X'
-          amount_to_subtract += @values[roman[0]]
-          shift_string(roman)
-        end
-
-        # get rid of the M
-        shift_string(roman)
-        converted_integer += (10-amount_to_subtract)
-      when roman[0] == 'V'
-        converted_integer += 5
-        shift_string(roman)
-      when roman.include?('V')
-        amount_to_subtract = 0
-        while roman[0] != 'V'
-          amount_to_subtract += @values[roman[0]]
-          shift_string(roman)
-        end
-
-        # get rid of the M
-        shift_string(roman)
-        converted_integer += (5-amount_to_subtract)
-      when roman[0] == 'I'
-        converted_integer += 1
-        shift_string(roman)
       else
-        binding.pry
+        if is_largest_value(roman[index..-1], numeral)
+          converted_integer  += (@values[numeral] - amount_to_subtract)
+          amount_to_subtract = 0
+        else
+          amount_to_subtract += @values[numeral]
+        end
     end
   end
+
+  # First version
+  #while roman.length > 0
+  #  case
+  #    when roman[0] == 'M'
+  #      converted_integer += 1000
+  #      shift_string(roman)
+  #    when roman.include?('M')
+  #      amount_to_subtract = 0
+  #      while roman[0] != 'M'
+  #        amount_to_subtract += @values[roman[0]]
+  #        shift_string(roman)
+  #      end
+  #
+  #      # get rid of the M
+  #      shift_string(roman)
+  #      converted_integer += (1000-amount_to_subtract)
+  #    when roman[0] == 'D'
+  #      converted_integer += 500
+  #      shift_string(roman)
+  #    when roman.include?('D')
+  #      amount_to_subtract = 0
+  #      while roman[0] != 'D'
+  #        amount_to_subtract += @values[roman[0]]
+  #        shift_string(roman)
+  #      end
+  #
+  #      # get rid of the M
+  #      shift_string(roman)
+  #      converted_integer += (500-amount_to_subtract)
+  #    when roman[0] == 'C'
+  #      converted_integer += 100
+  #      shift_string(roman)
+  #    when roman.include?('C')
+  #      amount_to_subtract = 0
+  #      while roman[0] != 'C'
+  #        amount_to_subtract += @values[roman[0]]
+  #        shift_string(roman)
+  #      end
+  #
+  #      # get rid of the M
+  #      shift_string(roman)
+  #      converted_integer += (100-amount_to_subtract)
+  #    when roman[0] == 'L'
+  #      converted_integer += 50
+  #      shift_string(roman)
+  #    when roman.include?('L')
+  #      amount_to_subtract = 0
+  #      while roman[0] != 'L'
+  #        amount_to_subtract += @values[roman[0]]
+  #        shift_string(roman)
+  #      end
+  #
+  #      # get rid of the M
+  #      shift_string(roman)
+  #      converted_integer += (50-amount_to_subtract)
+  #    when roman[0] == 'X'
+  #      converted_integer += 10
+  #      shift_string(roman)
+  #    when roman.include?('X')
+  #      amount_to_subtract = 0
+  #      while roman[0] != 'X'
+  #        amount_to_subtract += @values[roman[0]]
+  #        shift_string(roman)
+  #      end
+  #
+  #      # get rid of the M
+  #      shift_string(roman)
+  #      converted_integer += (10-amount_to_subtract)
+  #    when roman[0] == 'V'
+  #      converted_integer += 5
+  #      shift_string(roman)
+  #    when roman.include?('V')
+  #      amount_to_subtract = 0
+  #      while roman[0] != 'V'
+  #        amount_to_subtract += @values[roman[0]]
+  #        shift_string(roman)
+  #      end
+  #
+  #      # get rid of the M
+  #      shift_string(roman)
+  #      converted_integer += (5-amount_to_subtract)
+  #    when roman[0] == 'I'
+  #      converted_integer += 1
+  #      shift_string(roman)
+  #    else
+  #      binding.pry
+  #  end
+  #end
 
   converted_integer
 end
