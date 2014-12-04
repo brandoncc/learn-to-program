@@ -1,4 +1,4 @@
 ##learn-to-program
 
 **Exercises from Learn to Program**
-by Chris Piney
+by Chris Pine
